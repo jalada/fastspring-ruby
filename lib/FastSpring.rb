@@ -27,7 +27,7 @@ class FastSpring
     if response.code == 200
       sub = parse_subscription(response.parsed_response.fetch('subscription'))
     else
-      exception = FsprgException.new(response.code, nil)
+      exception = FsprgException.new(response.code, response.body)
       raise exception, "An error occurred calling the FastSpring subscription service", caller
     end
     
@@ -43,7 +43,7 @@ class FastSpring
     if response.code == 200
       sub = parse_subscription(response.parsed_response.fetch('subscription'))
     else
-      exception = FsprgException.new(response.code, nil)
+      exception = FsprgException.new(response.code, response.body)
       raise exception, "An error occurred calling the FastSpring subscription service", caller
     end
     
@@ -59,7 +59,7 @@ class FastSpring
     if response.code == 200
       sub = parse_subscription(response.parsed_response.fetch('subscription'))
     else
-      exception = FsprgException.new(response.code, nil)
+      exception = FsprgException.new(response.code, response.body)
       raise exception, "An error occurred calling the FastSpring subscription service", caller
     end
     
@@ -206,16 +206,11 @@ class FsprgCustomer
 end
 
 class FsprgException < RuntimeError
-  def initialize(http_status_code, error_code)
+  attr_reader :http_status_code, :error_code
+  
+  def initialize(http_status_code, error_body)
     @http_status_code = http_status_code
-    @error_code = error_code
+    @error_body = error_body
   end
-  
-  def http_status_code
-    @http_status_code
-  end
-  
-  def error_code
-    @error_code
-  end
+
 end

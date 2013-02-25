@@ -206,7 +206,7 @@ class FsprgCustomer
 end
 
 class FsprgException < RuntimeError
-  attr_reader :http_status_code, :error_code
+  attr_reader :http_status_code, :error_body
   
   def initialize(http_status_code, error_body)
     @http_status_code = http_status_code

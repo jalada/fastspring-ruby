@@ -34,7 +34,7 @@ used to pass the data in and out of the APIs are described below.
 		def test_mode=
 		def test_mode?
 		
-		def initialize(store_id, api_username, api_password)
+		def initialize(store_id, company_id, api_username, api_password)
 		
 		def create_subscription(product_ref, referrer, order_type=:detail)
 		
@@ -61,13 +61,14 @@ Then add the following lines to your RoR Gemfile
 	
 Then you instantiate a new FastSpring object with the parameters that match your store's setup.
 
-* store_id
+* store_id (may be the same as company ID if you only have one store)
+* company_id
 * api_username
 * api_password
 
 ### Example ###
 
-	@fastspring = FastSpring.new("your_store_id", "your_api_username", "your_api_password")
+	@fastspring = FastSpring.new("your_store_id", "your_company_id", "your_api_username", "your_api_password")
 
 
 ### class FsprgSubscription ###
@@ -126,6 +127,7 @@ configured in order to use this example:
 You need to modify pages_controller.rb to modify the following values to match your store's settings:
 
 * store_id
+* company_id
 * api_username
 * api_password
 * test_mode

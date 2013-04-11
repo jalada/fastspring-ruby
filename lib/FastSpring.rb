@@ -3,11 +3,12 @@ require 'active_support/builder' unless defined?(Builder)
 
 class FastSpring
 
-  attr_accessor :test_mode
+  attr_accessor :test_mode, :store_id, :company_id
   
-  def initialize(store_id, api_username, api_password)
+  def initialize(store_id, company_id, api_username, api_password)
     @auth = { :username => api_username, :password => api_password }
     @store_id = store_id
+    @company_id = company_id
     @test_mode = false
   end
   
@@ -81,7 +82,7 @@ class FastSpring
   private
   
   def subscription_url(reference, *options)
-    url = "https://api.fastspring.com/company/#{@store_id}/subscription/#{reference}"
+    url = "https://api.fastspring.com/company/#{@company_id}/subscription/#{reference}"
     
     unless options.nil? || options.length == 0
       opt = options[0]

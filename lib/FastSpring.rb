@@ -1,5 +1,6 @@
 require 'httparty' unless defined?(HTTParty)
 require 'active_support/builder' unless defined?(Builder)
+require 'active_support/core_ext'
 
 class FastSpring
 
@@ -12,11 +13,12 @@ class FastSpring
     @test_mode = false
   end
   
-  def create_subscription(product_ref, referrer, order_type=:detail)
+  def create_subscription(product_ref, referrer, order_type=:detail, params={})
     protocols = {:detail => "http", :short => "https", :checkout => "https"}
     order_types = {:detail => "product", :short => "instant", :checkout => "checkout"}
     url = "#{protocols[order_type]}://sites.fastspring.com/#{@store_id}/#{order_types[order_type]}/#{product_ref}?referrer=#{referrer}"
     url = add_test_mode(url)
+    url = add_params(url, params)
   end
   
   def get_subscription(subscription_ref)
@@ -113,6 +115,14 @@ class FastSpring
     end
     
     url
+  end
+
+  def add_params(url, params)
+    if url.include? "?"
+      url += "&"
+    else
+      url += "?"
+    url += params.to_query
   end
   
   def parse_subscription(response)

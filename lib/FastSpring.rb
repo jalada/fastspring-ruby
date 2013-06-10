@@ -122,6 +122,7 @@ class FastSpring
       url += "&"
     else
       url += "?"
+    end
     url += params.to_query
   end
   
